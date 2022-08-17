@@ -1,0 +1,53 @@
+﻿<h3>List Items</h3>
+
+<h3>Good Child</h3>
+<ul>
+  @GoodChild
+</ul>
+
+<hr />
+
+<h3>Bad Child</h3>
+<ul>
+  @BadChild
+</ul>
+
+<hr />
+
+<h3>Whatevs Child</h3>
+@WhatevsChild
+
+@code {
+  [Parameter, EditorRequired] public RenderFragment GoodChild { get; set; } = default!;
+  [Parameter, EditorRequired] public RenderFragment BadChild { get; set; } = default!;
+  [Parameter] public RenderFragment WhatevsChild { get; set; } = default!;
+
+  protected override void OnParametersSet()
+  {
+    WhatevsChild ??= CreateDefaultWhatevsChild();
+  }
+
+  private static RenderFragment CreateDefaultWhatevsChild()
+  {
+    return builder =>
+    {
+      builder.OpenElement(0, "ul");
+      builder.OpenElement(1, "li");
+      builder.AddContent(1, "Whatevs");
+      builder.CloseElement();
+
+      builder.OpenElement(1, "li");
+      builder.AddContent(1, "Whatevs");
+      builder.CloseElement();
+
+      builder.OpenElement(1, "li");
+      builder.OpenElement(0, "a");
+      builder.AddAttribute(1, "href", "http://www.google.com");
+      builder.AddContent(2, "Click Here");
+      builder.CloseElement();
+      builder.CloseElement();
+
+      builder.CloseElement();
+    };
+  }
+}
